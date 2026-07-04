@@ -12,12 +12,10 @@ for (const d of ["seg", "nar"]) fs.mkdirSync(d, { recursive: true });
 const sh = cmd => execSync(cmd, { stdio: ["ignore", "pipe", "pipe"] }).toString().trim();
 const dur = f => parseFloat(sh(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${f}"`));
 
-// TTS=say uses the local macOS voice, anything else uses edge-tts neural voices.
 const TTS = process.env.TTS || "edge";
 const VOICE = process.env.VOICE || (TTS === "say" ? "Samantha" : "en-US-AndrewMultilingualNeural");
 const EDGE = path.join(DIR, "tts-venv", "bin", "edge-tts");
 
-// Cards stretch to fit their narration, live segments do not.
 const PLAYLISTS = {
   explainer: {
     out: "modak-explainer.mp4",
@@ -84,10 +82,7 @@ if (!PLAYLISTS[which]) {
 }
 const { out, parts } = PLAYLISTS[which];
 
-// 1. Narration audio, then measure it.
-// "Postgress" keeps the voice from reading Postgres as "post-grees", and
-// "lyve" keeps the adverb "live" from being read as the verb. The verb uses
-// ("rows live in Postgres") are left alone.
+// Phonetic respellings steer the TTS voice; verb uses of "live" are left alone.
 for (const p of parts) {
   const txt = p.say
     .replace(/Postgres/g, "Postgress")
@@ -104,8 +99,6 @@ for (const p of parts) {
   p.narDur = dur(p.nar);
 }
 
-// 2. Video segments. Cards are stills, scenes are recordings; explainer
-// scenes carry their own text, demo scenes get a caption overlay.
 for (const p of parts) {
   if (p.card) {
     p.outDur = Math.max(p.minDur, p.narDur + 1.0);
@@ -140,7 +133,6 @@ for (const p of parts) {
   console.log(`${p.name}: video ${p.outDur.toFixed(1)}s, narration ${p.narDur.toFixed(1)}s`);
 }
 
-// 3. Offsets, with a warning if narration would spill past its segment.
 let t = 0;
 for (const p of parts) {
   p.offset = t + 0.4;
@@ -151,7 +143,6 @@ for (const p of parts) {
 }
 console.log(`total ${t.toFixed(1)}s`);
 
-// 4. Concat video, then mux the delayed narration tracks.
 fs.writeFileSync(`list-${which}.txt`, parts.map(p => `file 'seg/${p.name}.mp4'`).join("\n") + "\n");
 execSync(`ffmpeg -y -v error -f concat -safe 0 -i list-${which}.txt -c copy video-only-${which}.mp4`);
 

@@ -1,8 +1,8 @@
-// Refreshes the console screenshots used by the docs (docs/assets).
+// Refreshes the console screenshots, copy them into the main repo's docs/assets.
 import { chromium } from "playwright";
 import path from "path";
 
-const DOCS = path.join(import.meta.dirname, "..", "assets");
+const DOCS = process.argv[2] || path.join(import.meta.dirname, "..", "images", "console");
 const browser = await chromium.launch();
 const page = await browser.newPage({
   viewport: { width: 1600, height: 900 },

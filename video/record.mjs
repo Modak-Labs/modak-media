@@ -10,7 +10,6 @@ fs.mkdirSync(OUT, { recursive: true });
 const scene = process.argv[2];
 if (!scene) { console.error("usage: node record.mjs <scene>"); process.exit(1); }
 
-// A visible fake cursor, since headless recordings have none.
 const cursorScript = () => {
   const mk = () => {
     if (document.getElementById("__cursor")) return;
@@ -118,7 +117,6 @@ async function gotoPlayground(page) {
 }
 
 const scenes = {
-  // Live time-lapse: fresh table, worker tiers partitions on screen.
   async tiering() {
     const { page, done } = await newScene("tiering");
     await page.goto(CONSOLE_URL);
@@ -176,7 +174,6 @@ const scenes = {
     await explainSql(page);
     await zoomTo(page, "#sql-explain-panel", 1.5, 3600);
     await runSql(page);
-    // Catch the delta row before the next worker sweep folds it.
     await setSql(page, "SELECT pk, op, tier_key, payload FROM modak.delta;");
     await runSql(page);
     await zoomTo(page, ".sql-results-panel", 1.45, 3000);

@@ -29,15 +29,10 @@ const BASE = `
   .zonelabel { position: absolute; font-size: 24px; color: #999999; font-weight: 600; }
 `;
 
-// Each scene is HTML with animations driven by element-level keyframes.
-// step(el, t, ...) helpers below generate per-element delays.
 const css = (sel, t, frames) => `${sel} { animation: ${frames} forwards; animation-delay: ${t}s; }`;
 
 const scenes = {};
 
-/* ------------------------------------------------------------------ */
-/* x-problem: partitions pile up, history drowns the working set       */
-/* ------------------------------------------------------------------ */
 scenes["x-problem"] = {
   dur: 14500,
   html() {
@@ -80,9 +75,6 @@ scenes["x-problem"] = {
   },
 };
 
-/* ------------------------------------------------------------------ */
-/* x-cutline: the split, and one query over both tiers                 */
-/* ------------------------------------------------------------------ */
 scenes["x-cutline"] = {
   dur: 17000,
   html() {
@@ -139,9 +131,6 @@ scenes["x-cutline"] = {
   },
 };
 
-/* ------------------------------------------------------------------ */
-/* x-modes: tiered vs mirrored, side by side                           */
-/* ------------------------------------------------------------------ */
 scenes["x-modes"] = {
   dur: 18000,
   html() {
@@ -153,11 +142,9 @@ scenes["x-modes"] = {
       return s;
     };
     let anims = "";
-    // Tiered: p0 then p1 detach, sink to the lake, and vacate the heap.
     for (let i = 0; i < 2; i++) {
       anims += css(`#L${i}`, 3.0 + i * 3.2, "tsink 1.6s cubic-bezier(.4,0,.2,1)");
     }
-    // Mirrored: a steady stream of row dots, heap untouched.
     for (let i = 0; i < 12; i++) {
       anims += css(`#dot${i}`, 3.0 + i * 0.85, "mflow 1.9s ease-in");
     }
@@ -202,9 +189,6 @@ scenes["x-modes"] = {
   },
 };
 
-/* ------------------------------------------------------------------ */
-/* x-choosing: the decision, question by question                      */
-/* ------------------------------------------------------------------ */
 scenes["x-choosing"] = {
   dur: 26000,
   html() {
@@ -254,9 +238,6 @@ scenes["x-choosing"] = {
   },
 };
 
-/* ------------------------------------------------------------------ */
-/* x-corrections: plain SQL everywhere, the delta, the fold            */
-/* ------------------------------------------------------------------ */
 scenes["x-corrections"] = {
   dur: 16500,
   html() {
@@ -302,9 +283,6 @@ scenes["x-corrections"] = {
   },
 };
 
-/* ------------------------------------------------------------------ */
-/* x-surfaces: the extension is optional, the seam contract is public  */
-/* ------------------------------------------------------------------ */
 scenes["x-surfaces"] = {
   dur: 25500,
   html() {
