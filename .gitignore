@@ -1,0 +1,7 @@
+node_modules/
+package-lock.json
+tts-venv/
+build/seg/
+build/check/
+build/list-*.txt
+.DS_Store
