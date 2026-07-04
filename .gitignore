@@ -1,7 +1,5 @@
 node_modules/
 package-lock.json
 tts-venv/
-video/build/seg/
-video/build/check/
-video/build/list-*.txt
+segments/
 .DS_Store

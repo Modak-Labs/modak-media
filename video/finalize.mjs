@@ -6,8 +6,6 @@ import fs from "fs";
 import path from "path";
 
 const DIR = import.meta.dirname;
-process.chdir(path.join(DIR, "build"));
-for (const d of ["seg", "nar"]) fs.mkdirSync(d, { recursive: true });
 
 const sh = cmd => execSync(cmd, { stdio: ["ignore", "pipe", "pipe"] }).toString().trim();
 const dur = f => parseFloat(sh(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${f}"`));
@@ -20,21 +18,21 @@ const PLAYLISTS = {
   explainer: {
     out: "modak-explainer.mp4",
     parts: [
-      { name: "card-x-intro", card: true, minDur: 3.4,
+      { name: "card-intro", card: true, minDur: 3.4,
         say: "Modak federates Postgres and Apache Iceberg behind one SQL surface. It knows which tier holds what, and every query stays real time and consistent." },
-      { name: "x-problem", scene: true,
+      { name: "problem", scene: true,
         say: "Most tables age. Recent rows are written and read constantly, while history piles up, pushing the working set out of memory and slowing the whole table down." },
-      { name: "x-cutline", scene: true,
+      { name: "cutline", scene: true,
         say: "Modak splits the table at a cut line. Rows above it live in Postgres, rows below it live in Iceberg, and one plain SQL query reads the whole timeline as a single table." },
-      { name: "x-modes", scene: true,
+      { name: "modes", scene: true,
         say: "Data reaches the lake one of two ways. Tiered moves whole partitions in bulk and drops them from Postgres. Mirrored trails every change by CDC while Postgres keeps its full copy." },
-      { name: "x-choosing", scene: true,
+      { name: "choosing", scene: true,
         say: "The mode is a choice, not an assumption. Entity data mirrors fully. Aging data asks two questions. Should Postgres keep the whole copy? Keep-heap tiers batches without deleting anything. And must the lake trail in seconds? Then mirror with heap retention. Otherwise, plain tiered is the cheapest at scale." },
-      { name: "x-corrections", scene: true,
+      { name: "corrections", scene: true,
         say: "Writes stay plain SQL everywhere. Updates to rows already in the lake land in a delta buffer, visible immediately, and the worker folds them into Iceberg moments later." },
-      { name: "x-surfaces", scene: true,
+      { name: "surfaces", scene: true,
         say: "And the extension itself is optional. With it, everything is plain SQL. Without it, nothing is lost: the seam protocol is public, with a client library, a Spark connector, Stream Load, and bulk ingest on top. They are not fallbacks: for streaming and backfills, they beat plain SQL. And Flink, Trino, and more are on the way." },
-      { name: "card-x-outro", card: true, minDur: 3.6,
+      { name: "card-outro", card: true, minDur: 3.6,
         say: "Modak. Tier-aware data federation between Postgres and Apache Iceberg. Watch the demo next." },
     ],
   },
@@ -81,6 +79,8 @@ if (!PLAYLISTS[which]) {
   process.exit(1);
 }
 const { out, parts } = PLAYLISTS[which];
+process.chdir(path.join(DIR, which));
+for (const d of ["segments", "narration"]) fs.mkdirSync(d, { recursive: true });
 
 // Phonetic respellings steer the TTS voice; verb uses of "live" are left alone.
 for (const p of parts) {
@@ -90,11 +90,11 @@ for (const p of parts) {
     .replace(/^Live([.,])/g, "Lyve$1")
     .replace(/"/g, '\\"');
   if (TTS === "say") {
-    execSync(`say -v "${VOICE}" -o nar/${p.name}.aiff "${txt}"`);
-    p.nar = `nar/${p.name}.aiff`;
+    execSync(`say -v "${VOICE}" -o narration/${p.name}.aiff "${txt}"`);
+    p.nar = `narration/${p.name}.aiff`;
   } else {
-    execSync(`${EDGE} --voice "${VOICE}" --text "${txt}" --write-media nar/${p.name}.mp3`);
-    p.nar = `nar/${p.name}.mp3`;
+    execSync(`${EDGE} --voice "${VOICE}" --text "${txt}" --write-media narration/${p.name}.mp3`);
+    p.nar = `narration/${p.name}.mp3`;
   }
   p.narDur = dur(p.nar);
 }
@@ -106,29 +106,29 @@ for (const p of parts) {
     execSync(
       `ffmpeg -y -v error -loop 1 -t ${p.outDur.toFixed(2)} -i cards/${p.name}.png ` +
       `-vf "fps=30,fade=t=in:st=0:d=0.4,fade=t=out:st=${fadeOut}:d=0.4,format=yuv420p" ` +
-      `-c:v libx264 -crf 18 -preset medium seg/${p.name}.mp4`
+      `-c:v libx264 -crf 18 -preset medium segments/${p.name}.mp4`
     );
   } else if (p.scene) {
-    const inDur = dur(`raw/${p.name}.webm`);
+    const inDur = dur(`scenes/${p.name}.webm`);
     p.outDur = inDur;
     const fadeOut = (p.outDur - 0.4).toFixed(2);
     execSync(
-      `ffmpeg -y -v error -i raw/${p.name}.webm ` +
+      `ffmpeg -y -v error -i scenes/${p.name}.webm ` +
       `-vf "fps=30,fade=t=in:st=0:d=0.35,fade=t=out:st=${fadeOut}:d=0.35,format=yuv420p" ` +
-      `-an -c:v libx264 -crf 18 -preset medium seg/${p.name}.mp4`
+      `-an -c:v libx264 -crf 18 -preset medium segments/${p.name}.mp4`
     );
-    p.outDur = dur(`seg/${p.name}.mp4`);
+    p.outDur = dur(`segments/${p.name}.mp4`);
   } else {
-    const inDur = dur(`raw/${p.name}.webm`);
+    const inDur = dur(`scenes/${p.name}.webm`);
     p.outDur = inDur / p.speed;
     const fadeOut = (p.outDur - 0.4).toFixed(2);
     execSync(
-      `ffmpeg -y -v error -i raw/${p.name}.webm -i caps/${p.name}.png ` +
+      `ffmpeg -y -v error -i scenes/${p.name}.webm -i captions/${p.name}.png ` +
       `-filter_complex "[0:v]setpts=PTS/${p.speed},fps=30[v];[v][1:v]overlay=0:0,` +
       `fade=t=in:st=0:d=0.35,fade=t=out:st=${fadeOut}:d=0.35,format=yuv420p[out]" ` +
-      `-map "[out]" -an -c:v libx264 -crf 18 -preset medium seg/${p.name}.mp4`
+      `-map "[out]" -an -c:v libx264 -crf 18 -preset medium segments/${p.name}.mp4`
     );
-    p.outDur = dur(`seg/${p.name}.mp4`);
+    p.outDur = dur(`segments/${p.name}.mp4`);
   }
   console.log(`${p.name}: video ${p.outDur.toFixed(1)}s, narration ${p.narDur.toFixed(1)}s`);
 }
@@ -143,8 +143,8 @@ for (const p of parts) {
 }
 console.log(`total ${t.toFixed(1)}s`);
 
-fs.writeFileSync(`list-${which}.txt`, parts.map(p => `file 'seg/${p.name}.mp4'`).join("\n") + "\n");
-execSync(`ffmpeg -y -v error -f concat -safe 0 -i list-${which}.txt -c copy video-only-${which}.mp4`);
+fs.writeFileSync("segments/list.txt", parts.map(p => `file '${p.name}.mp4'`).join("\n") + "\n");
+execSync(`ffmpeg -y -v error -f concat -safe 0 -i segments/list.txt -c copy segments/video-only.mp4`);
 
 const inputs = parts.map(p => `-i ${p.nar}`).join(" ");
 const delays = parts
@@ -155,7 +155,7 @@ const delays = parts
   .join(";");
 const mix = parts.map((_, i) => `[a${i}]`).join("") + `amix=inputs=${parts.length}:normalize=0[a]`;
 execSync(
-  `ffmpeg -y -v error -i video-only-${which}.mp4 ${inputs} ` +
+  `ffmpeg -y -v error -i segments/video-only.mp4 ${inputs} ` +
   `-filter_complex "${delays};${mix}" ` +
   `-map 0:v -map "[a]" -c:v copy -c:a aac -b:a 128k -shortest ${out}`
 );

@@ -1,10 +1,10 @@
-// Records one console scene as build/raw/<scene>.webm. Run once per scene.
+// Records one console scene as demo/scenes/<scene>.webm. Run once per scene.
 import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
 const CONSOLE_URL = "http://localhost:9090/";
-const OUT = path.join(import.meta.dirname, "build", "raw");
+const OUT = path.join(import.meta.dirname, "demo", "scenes");
 fs.mkdirSync(OUT, { recursive: true });
 
 const scene = process.argv[2];

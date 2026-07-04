@@ -1,9 +1,9 @@
-// Renders the per-scene caption pills as transparent build/caps/<name>.png.
+// Renders the demo caption pills as transparent demo/captions/<name>.png.
 import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
-const OUT = path.join(import.meta.dirname, "build", "caps");
+const OUT = path.join(import.meta.dirname, "demo", "captions");
 fs.mkdirSync(OUT, { recursive: true });
 
 const captions = {

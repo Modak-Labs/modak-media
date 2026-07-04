@@ -1,10 +1,7 @@
-// Renders the full-frame title cards as build/cards/<name>.png.
+// Renders the full-frame title cards as <video>/cards/<name>.png.
 import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
-
-const OUT = path.join(import.meta.dirname, "build", "cards");
-fs.mkdirSync(OUT, { recursive: true });
 
 const LOGO = `<svg width="72" height="72" viewBox="0 0 64 64" fill="none" stroke="#e6e6e6" stroke-linecap="round" stroke-linejoin="round">
   <path d="M32 7 C43 17 55 30 55 42 A23 13 0 0 1 9 42 C9 30 21 17 32 7 Z" stroke-width="3"/>
@@ -39,22 +36,30 @@ function html({ title, sub, brand = false, small = "" }) {
 }
 
 const cards = {
-  "card-x-intro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg." },
-  "card-x-outro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg.", small: "watch the demo next &middot; github.com/Modak-Labs/modak" },
-  "card-intro": { brand: true, title: "The demo", sub: "An ordinary Postgres table, a worker moving data between tiers, and plain SQL over all of it. Live, no cuts." },
-  "card-table": { title: "Start with an ordinary Postgres table", sub: "public.events has 5 rows across 3 range partitions, freshly registered with Modak. The worker takes it from here." },
-  "card-dml": { title: "Plain SQL. Any row. Either tier.", sub: "SELECT, INSERT, UPDATE, DELETE work across the whole timeline. Explain shows exactly where rows come from and go to." },
-  "card-fold": { title: "Moments later", sub: "The worker folds the correction into Iceberg. The delta drains to zero, and the corrected row now lives in the lake." },
-  "card-maint": { title: "Maintenance is optional", sub: "Compaction, snapshot expiry, and orphan cleanup run on a schedule with sane defaults. Or trigger a pass yourself: one click in the console, or one CLI command." },
-  "card-outro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg.", small: "github.com/Modak-Labs/modak &middot; beta" },
+  explainer: {
+    "card-intro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg." },
+    "card-outro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg.", small: "watch the demo next &middot; github.com/Modak-Labs/modak" },
+  },
+  demo: {
+    "card-intro": { brand: true, title: "The demo", sub: "An ordinary Postgres table, a worker moving data between tiers, and plain SQL over all of it. Live, no cuts." },
+    "card-table": { title: "Start with an ordinary Postgres table", sub: "public.events has 5 rows across 3 range partitions, freshly registered with Modak. The worker takes it from here." },
+    "card-dml": { title: "Plain SQL. Any row. Either tier.", sub: "SELECT, INSERT, UPDATE, DELETE work across the whole timeline. Explain shows exactly where rows come from and go to." },
+    "card-fold": { title: "Moments later", sub: "The worker folds the correction into Iceberg. The delta drains to zero, and the corrected row now lives in the lake." },
+    "card-maint": { title: "Maintenance is optional", sub: "Compaction, snapshot expiry, and orphan cleanup run on a schedule with sane defaults. Or trigger a pass yourself: one click in the console, or one CLI command." },
+    "card-outro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg.", small: "github.com/Modak-Labs/modak &middot; beta" },
+  },
 };
 
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
-for (const [name, spec] of Object.entries(cards)) {
-  await page.setContent(html(spec));
-  await page.waitForTimeout(150);
-  await page.screenshot({ path: `${OUT}/${name}.png` });
-  console.log(`${OUT}/${name}.png`);
+for (const [video, specs] of Object.entries(cards)) {
+  const out = path.join(import.meta.dirname, video, "cards");
+  fs.mkdirSync(out, { recursive: true });
+  for (const [name, spec] of Object.entries(specs)) {
+    await page.setContent(html(spec));
+    await page.waitForTimeout(150);
+    await page.screenshot({ path: `${out}/${name}.png` });
+    console.log(`${out}/${name}.png`);
+  }
 }
 await browser.close();

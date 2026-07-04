@@ -1,10 +1,10 @@
-// Records the animated explainer scenes as build/raw/x-<scene>.webm.
+// Records the animated explainer scenes as explainer/scenes/<scene>.webm.
 // Usage: node explainer.mjs <scene|all>, scenes are listed at the bottom.
 import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
-const OUT = path.join(import.meta.dirname, "build", "raw");
+const OUT = path.join(import.meta.dirname, "explainer", "scenes");
 fs.mkdirSync(OUT, { recursive: true });
 
 const BASE = `
@@ -33,7 +33,7 @@ const css = (sel, t, frames) => `${sel} { animation: ${frames} forwards; animati
 
 const scenes = {};
 
-scenes["x-problem"] = {
+scenes["problem"] = {
   dur: 14500,
   html() {
     const N = 10;
@@ -75,7 +75,7 @@ scenes["x-problem"] = {
   },
 };
 
-scenes["x-cutline"] = {
+scenes["cutline"] = {
   dur: 17000,
   html() {
     const N = 8, CUT = 6;
@@ -131,7 +131,7 @@ scenes["x-cutline"] = {
   },
 };
 
-scenes["x-modes"] = {
+scenes["modes"] = {
   dur: 18000,
   html() {
     const mini = (px, id) => {
@@ -189,7 +189,7 @@ scenes["x-modes"] = {
   },
 };
 
-scenes["x-choosing"] = {
+scenes["choosing"] = {
   dur: 26000,
   html() {
     const node = (id, x, y, w, text, cls = "") =>
@@ -238,7 +238,7 @@ scenes["x-choosing"] = {
   },
 };
 
-scenes["x-corrections"] = {
+scenes["corrections"] = {
   dur: 16500,
   html() {
     return `<!DOCTYPE html><html><head><style>${BASE}
@@ -283,7 +283,7 @@ scenes["x-corrections"] = {
   },
 };
 
-scenes["x-surfaces"] = {
+scenes["surfaces"] = {
   dur: 25500,
   html() {
     const item = (id, text, dim = false) =>

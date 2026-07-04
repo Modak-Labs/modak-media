@@ -3,15 +3,15 @@
 Brand assets and the video toolchain for [Modak](https://github.com/Modak-Labs/modak).
 
 - `images/`: logo, favicon, and console screenshots.
-- `video/`: two videos, each around two minutes, assembled with ffmpeg and
-  edge-tts narration: `build/modak-explainer.mp4` (what Modak is, the modes,
-  how to choose) and `build/modak-demo.mp4` (the console demo, recorded with
-  Playwright).
+- `video/`: the toolchain plus one folder per video. Each video folder holds
+  its `scenes/` (raw recordings), `narration/` (edge-tts audio), `cards/`
+  (title stills), and the finished mp4 at the top.
+  - `video/explainer/modak-explainer.mp4`: what Modak is, the modes, how to choose.
+  - `video/demo/modak-demo.mp4`: the console demo, recorded with Playwright,
+    with `captions/` overlaid on the scenes.
 
-The video intermediates are committed (LFS), so a small change only
-re-stitches: tweak one scene, re-record it, then run finalize. Raw scene
-recordings live in `video/build/raw`, narration audio in `video/build/nar`,
-title cards and captions in `video/build/cards` and `video/build/caps`.
+Everything reusable is committed (LFS), so a small change only re-stitches:
+tweak one scene, re-record it, then run finalize.
 
 ## Building the videos
 
