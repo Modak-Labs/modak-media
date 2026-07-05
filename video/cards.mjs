@@ -37,8 +37,8 @@ function html({ title, sub, brand = false, small = "" }) {
 
 const cards = {
   explainer: {
-    "card-intro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg." },
-    "card-outro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg.", small: "watch the demo next &middot; github.com/Modak-Labs/modak" },
+    "card-intro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg." },
+    "card-outro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg.", small: "watch the demo next &middot; github.com/Modak-Labs/modak" },
   },
   demo: {
     "card-intro": { brand: true, title: "The demo", sub: "An ordinary Postgres table, a worker moving data between tiers, and plain SQL over all of it. Live, no cuts." },
@@ -46,7 +46,7 @@ const cards = {
     "card-dml": { title: "Plain SQL. Any row. Either tier.", sub: "SELECT, INSERT, UPDATE, DELETE work across the whole timeline. Explain shows exactly where rows come from and go to." },
     "card-fold": { title: "Moments later", sub: "The worker folds the correction into Iceberg. The delta drains to zero, and the corrected row now lives in the lake." },
     "card-maint": { title: "Maintenance is optional", sub: "Compaction, snapshot expiry, and orphan cleanup run on a schedule with sane defaults. Or trigger a pass yourself: one click in the console, or one CLI command." },
-    "card-outro": { brand: true, title: "", sub: "Tier-aware data federation between Postgres and Apache Iceberg.", small: "github.com/Modak-Labs/modak &middot; beta" },
+    "card-outro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg.", small: "github.com/Modak-Labs/modak &middot; beta" },
   },
 };
 

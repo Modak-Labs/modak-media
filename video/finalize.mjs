@@ -19,9 +19,9 @@ const PLAYLISTS = {
     out: "modak-explainer.mp4",
     parts: [
       { name: "card-intro", card: true, minDur: 3.4,
-        say: "Modak federates Postgres and Apache Iceberg behind one SQL surface. It knows which tier holds what, and every query stays real time and consistent." },
+        say: "Modak: fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg. Recent rows stay hot, history moves to the lake, and queries stay consistent across both." },
       { name: "problem", scene: true,
-        say: "Most tables age. Recent rows are written and read constantly, while history piles up, pushing the working set out of memory and slowing the whole table down." },
+        say: "Most tables age. Recent rows are written and read constantly, while history piles up, bloating the heap and indexes, crowding hot rows out of cache, and slowing every vacuum and backup." },
       { name: "cutline", scene: true,
         say: "Modak splits the table at a cut line. Rows above it live in Postgres, rows below it live in Iceberg, and one plain SQL query reads the whole timeline as a single table." },
       { name: "modes", scene: true,
@@ -31,9 +31,9 @@ const PLAYLISTS = {
       { name: "corrections", scene: true,
         say: "Writes stay plain SQL everywhere. Updates to rows already in the lake land in a delta buffer, visible immediately, and the worker folds them into Iceberg moments later." },
       { name: "surfaces", scene: true,
-        say: "And the extension itself is optional. With it, everything is plain SQL. Without it, nothing is lost: the seam protocol is public, with a client library, a Spark connector, Stream Load, and bulk ingest on top. They are not fallbacks: for streaming and backfills, they beat plain SQL. And Flink, Trino, and more are on the way." },
+        say: "The extension is the best experience: everything is plain SQL, transparent reads and DML across both tiers. The seam protocol is public, so connectors serve the same view without it: Spark today, a JVM client library to build on, Flink and Trino coming. And for streaming and backfills, Stream Load and bulk ingest beat plain SQL anyway." },
       { name: "card-outro", card: true, minDur: 3.6,
-        say: "Modak. Tier-aware data federation between Postgres and Apache Iceberg. Watch the demo next." },
+        say: "Modak. Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg. Watch the demo next." },
     ],
   },
   demo: {
@@ -68,7 +68,7 @@ const PLAYLISTS = {
       { name: "outro", speed: 1.25,
         say: "Tiering, folding, maintenance, and partition premake, all in the background, all visible." },
       { name: "card-outro", card: true, minDur: 3.6,
-        say: "Modak. Tier-aware data federation between Postgres and Apache Iceberg." },
+        say: "Modak. Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg." },
     ],
   },
 };

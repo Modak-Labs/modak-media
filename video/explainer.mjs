@@ -314,8 +314,8 @@ scenes["surfaces"] = {
         ["#mirrored", 15.0],
       ].map(([sel, t]) => `${sel} { animation: fadein 0.7s ease forwards; animation-delay: ${t}s; }`).join("\n")}
     </style></head><body>
-      <div class="title fade">The extension is optional</div>
-      <div class="sub fade" style="animation-delay:.3s">Best with it, complete without it. Some workloads deserve a better tool than SQL anyway.</div>
+      <div class="title fade">Extension or connector</div>
+      <div class="sub fade" style="animation-delay:.3s">The seam protocol is public. Connectors serve the same consistent view.</div>
 
       <div class="card" id="left" style="left:150px"></div>
       <div class="cardtitle" id="lt" style="left:150px">As a Postgres extension</div>
@@ -325,10 +325,10 @@ scenes["surfaces"] = {
       ${item("l3", "<b>modak_explain</b> <span>&middot; shows the routing for any statement</span>")}
 
       <div class="card" id="right" style="left:990px"></div>
-      <div class="cardtitle" id="rt" style="left:990px">Purpose-built surfaces</div>
-      <div class="cardsub" id="rs" style="left:990px">with or without the extension, per workload</div>
-      ${item("r1", "<b>Seam client library</b> <span>&middot; JDBC building block for your tooling</span>")}
-      ${item("r2", "<b>Spark connector</b> <span>&middot; SQL and DataFrames over both tiers</span>")}
+      <div class="cardtitle" id="rt" style="left:990px">Connectors and ingest</div>
+      <div class="cardsub" id="rs" style="left:990px">the same seam, per workload</div>
+      ${item("r1", "<b>Spark connector</b> <span>&middot; SQL and DataFrames over both tiers</span>")}
+      ${item("r2", "<b>Seam client library</b> <span>&middot; JDBC building block for your tooling</span>")}
       ${item("r3", "<b>Stream Load</b> <span>&middot; streaming ingest, exactly once</span>")}
       ${item("r4", "<b>Bulk ingest</b> <span>&middot; backfills, files straight into both tiers</span>")}
       ${item("r5", "<b>Flink, Trino</b> <span>&middot; and more coming</span>", true)}
