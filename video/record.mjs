@@ -174,7 +174,7 @@ const scenes = {
     await explainSql(page);
     await zoomTo(page, "#sql-explain-panel", 1.5, 3600);
     await runSql(page);
-    await setSql(page, "SELECT pk, op, tier_key, payload FROM modak.delta;");
+    await setSql(page, "SELECT pk, op, tier_key, payload FROM tierdb.delta;");
     await runSql(page);
     await zoomTo(page, ".sql-results-panel", 1.45, 3000);
     await sleep(600);
@@ -184,7 +184,7 @@ const scenes = {
   async folded() {
     const { page, done } = await newScene("folded");
     await gotoPlayground(page);
-    await typeSql(page, "SELECT count(*) AS delta_rows FROM modak.delta;", 20);
+    await typeSql(page, "SELECT count(*) AS delta_rows FROM tierdb.delta;", 20);
     await runSql(page);
     await sleep(1200);
     await typeSql(page, "SELECT * FROM public.events WHERE id = 3;", 20);

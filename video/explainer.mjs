@@ -272,7 +272,7 @@ scenes["corrections"] = {
       <div class="sub fade" style="animation-delay:.3s">Even when the row already lives in the lake.</div>
       <div id="sql" class="mono">UPDATE events SET amount = 42 WHERE id = 1187;</div>
       <div class="box" id="delta"></div>
-      <div class="boxlabel fade" style="left:535px; top:440px; animation-delay:3.4s">modak.delta &middot; the correction buffer</div>
+      <div class="boxlabel fade" style="left:535px; top:440px; animation-delay:3.4s">tierdb.delta &middot; the correction buffer</div>
       <div id="entry" class="mono">id 1187 &middot; upsert &middot; v2</div>
       <div id="imm">visible to every query, immediately</div>
       <div class="box" id="lake"></div>
@@ -322,7 +322,7 @@ scenes["surfaces"] = {
       <div class="cardsub" id="ls" style="left:150px">the best experience: everything is plain SQL</div>
       ${item("l1", "<b>Transparent reads</b> <span>&middot; one SELECT over both tiers</span>")}
       ${item("l2", "<b>Transparent DML</b> <span>&middot; UPDATE and DELETE reach cold rows</span>")}
-      ${item("l3", "<b>modak_explain</b> <span>&middot; shows the routing for any statement</span>")}
+      ${item("l3", "<b>tierdb_explain</b> <span>&middot; shows the routing for any statement</span>")}
 
       <div class="card" id="right" style="left:990px"></div>
       <div class="cardtitle" id="rt" style="left:990px">Connectors and ingest</div>

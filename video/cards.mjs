@@ -3,13 +3,18 @@ import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
-const LOGO = `<svg width="72" height="72" viewBox="0 0 64 64" fill="none" stroke="#e6e6e6" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M32 7 C43 17 55 30 55 42 A23 13 0 0 1 9 42 C9 30 21 17 32 7 Z" stroke-width="3"/>
-  <path d="M32 9 C30 22 26 36 18 50" stroke-width="2.2"/>
-  <path d="M32 9 C31 22 29 37 25.5 51.5" stroke-width="2.2"/>
-  <path d="M32 9 L32 52.5" stroke-width="2.2"/>
-  <path d="M32 9 C33 22 35 37 38.5 51.5" stroke-width="2.2"/>
-  <path d="M32 9 C34 22 38 36 46 50" stroke-width="2.2"/>
+const LOGO = `<svg width="72" height="72" viewBox="0 0 640 640">
+  <g fill="#e6e6e6">
+    <circle cx="320" cy="320" r="36"/>
+    <rect x="288" y="90" width="64" height="130" rx="32"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(45 320 320)"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(90 320 320)"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(135 320 320)"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(180 320 320)"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(225 320 320)"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(270 320 320)"/>
+    <rect x="288" y="90" width="64" height="130" rx="32" transform="rotate(315 320 320)"/>
+  </g>
 </svg>`;
 
 function html({ title, sub, brand = false, small = "" }) {
@@ -28,7 +33,7 @@ function html({ title, sub, brand = false, small = "" }) {
     .small { font-size: 22px; color: #666666; margin-top: 18px;
       font-family: "SF Mono", ui-monospace, Menlo, monospace; }
   </style></head><body>
-    ${brand ? `<div class="brandrow">${LOGO}<span class="word">modak</span></div>` : `<h1>${title}</h1>`}
+    ${brand ? `<div class="brandrow">${LOGO}<span class="word">tierdb</span></div>` : `<h1>${title}</h1>`}
     ${brand && title ? `<h1 style="font-size:40px;font-weight:400;color:#e6e6e6">${title}</h1>` : ""}
     ${sub ? `<p>${sub}</p>` : ""}
     ${small ? `<div class="small">${small}</div>` : ""}
@@ -38,15 +43,15 @@ function html({ title, sub, brand = false, small = "" }) {
 const cards = {
   explainer: {
     "card-intro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg." },
-    "card-outro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg.", small: "watch the demo next &middot; github.com/Modak-Labs/modak" },
+    "card-outro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg.", small: "watch the demo next &middot; github.com/Modak-Labs/tierdb" },
   },
   demo: {
     "card-intro": { brand: true, title: "The demo", sub: "An ordinary Postgres table, a worker moving data between tiers, and plain SQL over all of it. Live, no cuts." },
-    "card-table": { title: "Start with an ordinary Postgres table", sub: "public.events has 5 rows across 3 range partitions, freshly registered with Modak. The worker takes it from here." },
+    "card-table": { title: "Start with an ordinary Postgres table", sub: "public.events has 5 rows across 3 range partitions, freshly registered with TierDB. The worker takes it from here." },
     "card-dml": { title: "Plain SQL. Any row. Either tier.", sub: "SELECT, INSERT, UPDATE, DELETE work across the whole timeline. Explain shows exactly where rows come from and go to." },
     "card-fold": { title: "Moments later", sub: "The worker folds the correction into Iceberg. The delta drains to zero, and the corrected row now lives in the lake." },
     "card-maint": { title: "Maintenance is optional", sub: "Compaction, snapshot expiry, and orphan cleanup run on a schedule with sane defaults. Or trigger a pass yourself: one click in the console, or one CLI command." },
-    "card-outro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg.", small: "github.com/Modak-Labs/modak &middot; beta" },
+    "card-outro": { brand: true, title: "", sub: "Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg.", small: "github.com/Modak-Labs/tierdb &middot; beta" },
   },
 };
 

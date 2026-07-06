@@ -7,11 +7,11 @@ const OUT = path.join(import.meta.dirname, "demo", "captions");
 fs.mkdirSync(OUT, { recursive: true });
 
 const captions = {
-  overview: "The Modak console. Every registered table, its cut-line, its snapshot, and the worker, live.",
+  overview: "The TierDB console. Every registered table, its cut-line, its snapshot, and the worker, live.",
   tiering: "Time-lapse. The worker tiers p0 and p1 into Iceberg, then drops them from Postgres.",
   select: "One plain SELECT returns every row. Recent rows from the heap, history from Iceberg.",
   explain: "Explain shows the routing. The heap for recent rows, a pinned Iceberg snapshot for history.",
-  update: "A plain UPDATE of a cold row. Rewritten into two halves, the correction lands in modak.delta.",
+  update: "A plain UPDATE of a cold row. Rewritten into two halves, the correction lands in tierdb.delta.",
   folded: "The delta is empty. The corrected row is now served straight from Iceberg.",
   insert: "One INSERT, two destinations. The recent row hits the heap, the historical row the delta.",
   maintenance: "Lake health per table. One click files a maintenance request, the worker journals the pass.",

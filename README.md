@@ -1,10 +1,10 @@
-# Modak media
+# TierDB media
 
-Brand assets and the video toolchain for [Modak](https://github.com/Modak-Labs/modak).
+Brand assets and the video toolchain for [TierDB](https://github.com/Modak-Labs/tierdb).
 
 ## Building the videos
 
-The demo scenes need `ffmpeg` on PATH and the Modak stack running with the example data (`docker compose up -d --build`, then `./example/run.sh` in the main repo). The explainer scenes only need `ffmpeg`.
+The demo scenes need `ffmpeg` on PATH and the TierDB stack running with the example data (`docker compose up -d --build`, then `./example/run.sh` in the main repo). The explainer scenes only need `ffmpeg`.
 
 ```bash
 cd video

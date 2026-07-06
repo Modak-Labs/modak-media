@@ -16,14 +16,14 @@ const EDGE = path.join(DIR, "tts-venv", "bin", "edge-tts");
 
 const PLAYLISTS = {
   explainer: {
-    out: "modak-explainer.mp4",
+    out: "tierdb-explainer.mp4",
     parts: [
       { name: "card-intro", card: true, minDur: 3.4,
-        say: "Modak: fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg. Recent rows stay hot, history moves to the lake, and queries stay consistent across both." },
+        say: "TierDB: fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg. Recent rows stay hot, history moves to the lake, and queries stay consistent across both." },
       { name: "problem", scene: true,
         say: "Most tables age. Recent rows are written and read constantly, while history piles up, bloating the heap and indexes, crowding hot rows out of cache, and slowing every vacuum and backup." },
       { name: "cutline", scene: true,
-        say: "Modak splits the table at a cut line. Rows above it live in Postgres, rows below it live in Iceberg, and one plain SQL query reads the whole timeline as a single table." },
+        say: "TierDB splits the table at a cut line. Rows above it live in Postgres, rows below it live in Iceberg, and one plain SQL query reads the whole timeline as a single table." },
       { name: "modes", scene: true,
         say: "Data reaches the lake one of two ways. Tiered moves whole partitions in bulk and drops them from Postgres. Mirrored trails every change by CDC while Postgres keeps its full copy." },
       { name: "choosing", scene: true,
@@ -33,18 +33,18 @@ const PLAYLISTS = {
       { name: "surfaces", scene: true,
         say: "The extension is the best experience: everything is plain SQL, transparent reads and DML across both tiers. The seam protocol is public, so connectors serve the same view without it: Spark today, a JVM client library to build on, Flink and Trino coming. And for streaming and backfills, Stream Load and bulk ingest beat plain SQL anyway." },
       { name: "card-outro", card: true, minDur: 3.6,
-        say: "Modak. Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg. Watch the demo next." },
+        say: "TierDB. Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg. Watch the demo next." },
     ],
   },
   demo: {
-    out: "modak-demo.mp4",
+    out: "tierdb-demo.mp4",
     parts: [
       { name: "card-intro", card: true, minDur: 3.2,
         say: "The demo. Plain Postgres, plain SQL, and a worker moving data between tiers, live." },
       { name: "overview", speed: 1.15,
         say: "The console shows every registered table, its cut line, its snapshot, and the worker's activity, live." },
       { name: "card-table", card: true, minDur: 3.0,
-        say: "We start with an ordinary Postgres table, freshly registered with Modak. The worker takes it from here." },
+        say: "We start with an ordinary Postgres table, freshly registered with TierDB. The worker takes it from here." },
       { name: "tiering", speed: 1.5,
         say: "Both cold partitions move to Iceberg and are dropped from Postgres, live." },
       { name: "card-dml", card: true, minDur: 3.0,
@@ -68,7 +68,7 @@ const PLAYLISTS = {
       { name: "outro", speed: 1.25,
         say: "Tiering, folding, maintenance, and partition premake, all in the background, all visible." },
       { name: "card-outro", card: true, minDur: 3.6,
-        say: "Modak. Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg." },
+        say: "TierDB. Fast, transparent and cost-effective data tiering between Postgres and Apache Iceberg." },
     ],
   },
 };
